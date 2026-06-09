@@ -1,44 +1,41 @@
 from enum import Enum, auto
 
 
-# =====================
-# Token Types
-# =====================
-
 class TokenType(Enum):
     DEFINE = auto()
+
+    IF = auto()
+    THEN = auto()
 
     IDENTIFIER = auto()
     STRING = auto()
     NUMBER = auto()
 
-    LPAREN = auto()      # (
-    RPAREN = auto()      # )
-    LBRACE = auto()      # {
-    RBRACE = auto()      # }
-    STR = auto()         # str
-    INT = auto()         # int
-    BOOL = auto()        # bool
-    EQUAL = auto()       # = 
+    LPAREN = auto()
+    RPAREN = auto()
+    LBRACE = auto()
+    RBRACE = auto()
+
+    STR = auto()
+    INT = auto()
+    BOOL = auto()
+
+    EQUAL = auto()
+    EQUAL_EQUAL = auto()
 
     EOF = auto()
 
 
-# =====================
-# Keywords
-# =====================
-
 KEYWORDS = {
     "define": TokenType.DEFINE,
+    "if": TokenType.IF,
+    "then": TokenType.THEN,
+
     "str": TokenType.STR,
     "int": TokenType.INT,
-    "bool": TokenType.BOOL
+    "bool": TokenType.BOOL,
 }
 
-
-# =====================
-# Token Class
-# =====================
 
 class Token:
     def __init__(self, token_type, value=None):
@@ -48,13 +45,8 @@ class Token:
     def __repr__(self):
         if self.value is None:
             return self.type.name
-
         return f"{self.type.name}({self.value})"
 
-
-# =====================
-# Lexer
-# =====================
 
 class Lexer:
 
@@ -75,34 +67,18 @@ class Lexer:
     def advance(self):
         self.pos += 1
 
-    # -----------------
-    # Whitespace
-    # -----------------
-
     def skip_whitespace(self):
         while self.current() and self.current().isspace():
             self.advance()
-
-    # -----------------
-    # Single-line comments
-    # ?? comment
-    # -----------------
 
     def skip_comment(self):
         while self.current() and self.current() != "\n":
             self.advance()
 
-    # -----------------
-    # Identifiers
-    # -----------------
-
     def identifier(self):
         result = ""
 
-        while (
-            self.current()
-            and (self.current().isalnum() or self.current() == "_")
-        ):
+        while self.current() and (self.current().isalnum() or self.current() == "_"):
             result += self.current()
             self.advance()
 
@@ -111,26 +87,16 @@ class Lexer:
 
         return Token(TokenType.IDENTIFIER, result)
 
-    # -----------------
-    # Strings
-    # -----------------
-
     def string(self):
-        self.advance()  # skip opening "
-
+        self.advance()
         result = ""
 
         while self.current() and self.current() != '"':
             result += self.current()
             self.advance()
 
-        self.advance()  # skip closing "
-
+        self.advance()
         return Token(TokenType.STRING, result)
-
-    # -----------------
-    # Numbers
-    # -----------------
 
     def number(self):
         result = ""
@@ -141,41 +107,42 @@ class Lexer:
 
         return Token(TokenType.NUMBER, int(result))
 
-    # -----------------
-    # Main Tokenizer
-    # -----------------
-
     def tokenize(self):
         tokens = []
 
         while self.current():
 
-            # whitespace
             if self.current().isspace():
                 self.skip_whitespace()
                 continue
 
-            # ?? comments
             if self.current() == "?" and self.peek() == "?":
                 self.skip_comment()
                 continue
 
-            # identifiers
+            # ==
+            if self.current() == "=" and self.peek() == "=":
+                tokens.append(Token(TokenType.EQUAL_EQUAL))
+                self.advance()
+                self.advance()
+                continue
+
+            if self.current() == "=":
+                tokens.append(Token(TokenType.EQUAL))
+                self.advance()
+                continue
+
             if self.current().isalpha() or self.current() == "_":
                 tokens.append(self.identifier())
                 continue
 
-            # strings
             if self.current() == '"':
                 tokens.append(self.string())
                 continue
 
-            # numbers
             if self.current().isdigit():
                 tokens.append(self.number())
                 continue
-
-            # symbols
 
             if self.current() == "(":
                 tokens.append(Token(TokenType.LPAREN))
@@ -196,14 +163,8 @@ class Lexer:
                 tokens.append(Token(TokenType.RBRACE))
                 self.advance()
                 continue
-            if self.current() == "=":
-                tokens.append(Token(TokenType.EQUAL))
-                self.advance()
-                continue
 
-            raise Exception(
-                f"Unknown character: {self.current()}"
-            )
+            raise Exception(f"Unknown char: {self.current()}")
 
         tokens.append(Token(TokenType.EOF))
         return tokens

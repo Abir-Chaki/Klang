@@ -3,7 +3,9 @@ from Parser import (
     StringLiteral,
     IntegerLiteral,
     VariableDeclaration,
-    VariableReference
+    VariableReference,
+    BinaryExpression,
+    IfStatement
 )
 
 
@@ -15,24 +17,16 @@ class Interpreter:
 
     def run(self):
 
-        for func in self.ast.functions:
-
-            if func.name == "_start":
-                self.execute_function(func)
+        for f in self.ast.functions:
+            if f.name == "_start":
+                self.exec_block(f.body)
                 return
 
-        raise Exception(
-            "No _start() function found"
-        )
+        raise Exception("No _start")
 
-    def execute_function(self, func):
-
-        for statement in func.body:
-            self.execute(statement)
-
-    # -----------------
-    # Expression Evaluation
-    # -----------------
+    def exec_block(self, body):
+        for stmt in body:
+            self.execute(stmt)
 
     def evaluate(self, node):
 
@@ -43,53 +37,41 @@ class Interpreter:
             return node.value
 
         if isinstance(node, VariableReference):
-
-            if node.name not in self.variables:
-                raise Exception(
-                    f"Undefined variable: {node.name}"
-                )
-
             return self.variables[node.name]
 
-        raise Exception(
-            f"Cannot evaluate {node}"
-        )
+        if isinstance(node, BinaryExpression):
 
-    # -----------------
-    # Statement Execution
-    # -----------------
+            left = self.evaluate(node.left)
+            right = self.evaluate(node.right)
+
+            if node.operator == "==":
+                return left == right
+
+        raise Exception(f"Bad eval {node}")
 
     def execute(self, node):
 
         if isinstance(node, VariableDeclaration):
 
-            value = self.evaluate(
-                node.value
-            )
+            self.variables[node.name] = self.evaluate(node.value)
+            return
 
-            self.variables[node.name] = value
+        if isinstance(node, IfStatement):
+
+            if self.evaluate(node.condition):
+                self.exec_block(node.body)
 
             return
 
         if isinstance(node, FunctionCall):
 
-            if len(node.args) != 1:
-                raise Exception(
-                    f"{node.name} expects 1 argument"
-                )
-
-            value = self.evaluate(
-                node.args[0]
-            )
+            args = [self.evaluate(a) for a in node.args]
 
             if node.name == "print":
-                print(value, end="")
-                return
+                print(args[0], end="")
 
-            if node.name == "println":
-                print(value)
-                return
+            elif node.name == "println":
+                print(args[0])
 
-            raise Exception(
-                f"Unknown function: {node.name}"
-            )
+            else:
+                raise Exception(f"Unknown fn {node.name}")
