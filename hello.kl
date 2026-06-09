@@ -6,7 +6,3 @@ define _start() {
     println(num) ?? Prints 4
 }
 
-</
-K-lang is meant to make Operating Systems but since this is beta,
-not many features...yet
-/>
