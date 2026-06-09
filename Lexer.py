@@ -167,4 +167,4 @@ class Lexer:
             raise Exception(f"Unknown char: {self.current()}")
 
         tokens.append(Token(TokenType.EOF))
-        return tokens
+        return tokens # Token
