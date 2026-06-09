@@ -1,13 +1,16 @@
 define _start() {
 
-    int num = 4 ?? Defines an Integer 4
+    str name = "Person"
 
-    print("Hello ") ?? Prints Hello without newline
-    println(num) ?? Prints 4
+    println("Hello " + name)
 
-    int num = 6 ?? Defines an Integer 6
+    int a = 2
+    int b = 2
 
-    if num == 4 then {
-        println(num)
-    }
+    println(a + b)
+
+    str user = "User"
+    int age = 234
+
+    println(user + " is " + age)
 }

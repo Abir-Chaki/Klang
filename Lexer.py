@@ -22,6 +22,7 @@ class TokenType(Enum):
 
     EQUAL = auto()
     EQUAL_EQUAL = auto()
+    PLUS = auto()
 
     EOF = auto()
 
@@ -129,6 +130,13 @@ class Lexer:
 
             if self.current() == "=":
                 tokens.append(Token(TokenType.EQUAL))
+                self.advance()
+                continue
+
+            if self.current() == "+":
+                tokens.append(
+                    Token(TokenType.PLUS)
+                )
                 self.advance()
                 continue
 

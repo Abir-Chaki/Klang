@@ -41,13 +41,27 @@ class Interpreter:
 
         if isinstance(node, BinaryExpression):
 
-            left = self.evaluate(node.left)
-            right = self.evaluate(node.right)
+            left = self.evaluate(
+                node.left
+            )
+
+            right = self.evaluate(
+                node.right
+            )
 
             if node.operator == "==":
                 return left == right
 
-        raise Exception(f"Bad eval {node}")
+            if node.operator == "+":
+
+                if (
+                    isinstance(left, str)
+                    or
+                    isinstance(right, str)
+                ):
+                    return str(left) + str(right)
+
+                return left + right
 
     def execute(self, node):
 

@@ -82,6 +82,27 @@ class Parser:
 
     def parse_expression(self):
 
+        left = self.parse_primary()
+
+        while (
+            self.current().type
+            == TokenType.PLUS
+        ):
+
+            self.eat(TokenType.PLUS)
+
+            right = self.parse_primary()
+
+            left = BinaryExpression(
+                left,
+                "+",
+                right
+            )
+
+        return left
+    
+    def parse_primary(self):
+
         if self.current().type == TokenType.STRING:
             return self.parse_string()
 
@@ -89,11 +110,17 @@ class Parser:
             return self.parse_number()
 
         if self.current().type == TokenType.IDENTIFIER:
+
             return VariableReference(
-                self.eat(TokenType.IDENTIFIER).value
+                self.eat(
+                    TokenType.IDENTIFIER
+                ).value
             )
 
-        raise Exception("Bad expression")
+        raise Exception(
+            f"Unexpected token {self.current()}"
+        )
+    
 
     def parse_variable_declaration(self):
 
