@@ -4,5 +4,10 @@ define _start() {
 
     print("Hello ") ?? Prints Hello without newline
     println(num) ?? Prints 4
-}
 
+    int num = 6 ?? Defines an Integer 6
+
+    if num == 4 then {
+        println(num)
+    }
+}
