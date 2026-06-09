@@ -1,0 +1,7 @@
+define _start() {
+
+    int num = 4
+
+    print("Hello ")
+    println(num)
+}
