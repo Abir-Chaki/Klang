@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 push.ps1
 *.spec
+dist/
+build/
+kl.exe
