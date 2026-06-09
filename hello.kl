@@ -1,7 +1,12 @@
 define _start() {
 
-    int num = 4
+    int num = 4 ?? Defines an Integer 4
 
-    print("Hello ")
-    println(num)
+    print("Hello ") ?? Prints Hello without newline
+    println(num) ?? Prints 4
 }
+
+</
+K-lang is meant to make Operating Systems but since this is beta,
+not many features...yet
+/>
