@@ -6,7 +6,7 @@ from Parser import (
     VariableReference,
     BinaryExpression,
     IfStatement
-)# Token
+)
 
 
 class Interpreter:

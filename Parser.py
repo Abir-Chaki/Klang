@@ -177,4 +177,4 @@ class Parser:
         while self.current().type != TokenType.EOF:
             funcs.append(self.parse_function())
 
-        return Program(funcs) # Token
+        return Program(funcs)
