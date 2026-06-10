@@ -15,6 +15,7 @@ class Interpreter:
     def __init__(self, ast):
         self.ast = ast
         self.variables = {}
+        self.variable_types = {}
 
     def run(self):
 
@@ -81,7 +82,35 @@ class Interpreter:
 
         if isinstance(node, VariableDeclaration):
 
-            self.variables[node.name] = self.evaluate(node.value)
+            value = self.evaluate(node.value)
+
+            if node.var_type == "int":
+
+                if not isinstance(value, int):
+                    raise Exception(
+                        f"Type Error: "
+                        f"{node.name} expects int"
+                    )
+
+            elif node.var_type == "str":
+
+                if not isinstance(value, str):
+                    raise Exception(
+                        f"Type Error: "
+                        f"{node.name} expects str"
+                    )
+
+            elif node.var_type == "bool":
+
+                if not isinstance(value, bool):
+                    raise Exception(
+                        f"Type Error: "
+                        f"{node.name} expects bool"
+                    )
+
+            self.variables[node.name] = value
+            self.variable_types[node.name] = node.var_type
+
             return
 
         if isinstance(node, IfStatement):
