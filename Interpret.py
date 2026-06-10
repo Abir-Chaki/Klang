@@ -5,7 +5,8 @@ from Parser import (
     VariableDeclaration,
     VariableReference,
     BinaryExpression,
-    IfStatement
+    IfStatement,
+    InputExpression
 )
 
 
@@ -62,6 +63,19 @@ class Interpreter:
                     return str(left) + str(right)
 
                 return left + right
+            
+        if isinstance(node, InputExpression):
+
+            prompt = ""
+
+            if node.prompt:
+                prompt = str(
+                    self.evaluate(
+                        node.prompt
+                    )
+                )
+
+            return input(prompt)
 
     def execute(self, node):
 

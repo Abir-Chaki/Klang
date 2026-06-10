@@ -1,16 +1,9 @@
 define _start() {
+    str name = input()
+    println("Hi " + name)
 
-    str name = "Person"
+    int age = input("Age: ")
+    println("You are " + age + " years old")
 
-    println("Hello " + name)
-
-    int a = 2
-    int b = 2
-
-    println(a + b)
-
-    str user = "User"
-    int age = 234
-
-    println(user + " is " + age)
+    println("You like " + input("Favourite food: "))
 }

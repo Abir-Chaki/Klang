@@ -46,6 +46,13 @@ class BinaryExpression:
         self.operator = operator
         self.right = right
 
+class InputExpression:
+    def __init__(self, prompt=None):
+        self.prompt = prompt
+
+    def __repr__(self):
+        return f"InputExpression({self.prompt})"
+
 
 class IfStatement:
     def __init__(self, condition, body):
@@ -111,11 +118,28 @@ class Parser:
 
         if self.current().type == TokenType.IDENTIFIER:
 
-            return VariableReference(
-                self.eat(
-                    TokenType.IDENTIFIER
-                ).value
-            )
+            name = self.eat(
+                TokenType.IDENTIFIER
+            ).value
+
+            if (
+                name == "input"
+                and
+                self.current().type == TokenType.LPAREN
+            ):
+
+                self.eat(TokenType.LPAREN)
+
+                prompt = None
+
+                if self.current().type != TokenType.RPAREN:
+                    prompt = self.parse_expression()
+
+                self.eat(TokenType.RPAREN)
+
+                return InputExpression(prompt)
+
+            return VariableReference(name)
 
         raise Exception(
             f"Unexpected token {self.current()}"

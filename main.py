@@ -10,7 +10,7 @@ def main():
     if len(sys.argv) != 2:
         print("Klang Interpreter")
         print("Usage:")
-        print("    python main.py <file.kl>")
+        print("    kl <file.kl>\n")
         sys.exit(1)
 
     filename = sys.argv[1]
