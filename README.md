@@ -83,11 +83,13 @@ kl --version
 
 ## Roadmap
 
-- else statements
 - while loops
 - user-defined functions
-- arrays
+- functions with parameters
+- return values
 - compiler (klcc)
+- Booleans
+- Arrays
 - Future OS
 
 ## Status
