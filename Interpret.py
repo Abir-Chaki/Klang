@@ -141,8 +141,19 @@ class Interpreter:
 
         if isinstance(node, IfStatement):
 
-            if self.evaluate(node.condition):
-                self.exec_block(node.body)
+            condition = self.evaluate(
+                node.condition
+            )
+
+            if condition:
+
+                for stmt in node.then_body:
+                    self.execute(stmt)
+
+            elif node.else_body:
+
+                for stmt in node.else_body:
+                    self.execute(stmt)
 
             return
 

@@ -249,7 +249,7 @@ class ASTPrinter:
             )
 
             print(
-                f"{self.indent(level)}"
+                f"{self.indent(level)})"
             )
 
             return
@@ -271,10 +271,15 @@ class ASTPrinter:
             )
 
             print(
+                f"{self.indent(level + 1)}"
+                f"THEN"
+            )
+
+            print(
                 f"{self.indent(level + 1)}["
             )
 
-            for stmt in node.body:
+            for stmt in node.then_body:
                 self._print_node(
                     stmt,
                     level + 2
@@ -283,6 +288,27 @@ class ASTPrinter:
             print(
                 f"{self.indent(level + 1)}]"
             )
+
+            if node.else_body is not None:
+
+                print(
+                    f"{self.indent(level + 1)}"
+                    f"ELSE"
+                )
+
+                print(
+                    f"{self.indent(level + 1)}["
+                )
+
+                for stmt in node.else_body:
+                    self._print_node(
+                        stmt,
+                        level + 2
+                    )
+
+                print(
+                    f"{self.indent(level + 1)}]"
+                )
 
             print(
                 f"{self.indent(level)}"

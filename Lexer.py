@@ -5,6 +5,7 @@ class TokenType(Enum):
     DEFINE = auto()
 
     IF = auto()
+    ELSE = auto()
     THEN = auto()
 
     IDENTIFIER = auto()
@@ -31,6 +32,7 @@ KEYWORDS = {
     "define": TokenType.DEFINE,
     "if": TokenType.IF,
     "then": TokenType.THEN,
+    "else": TokenType.ELSE,
 
     "str": TokenType.STR,
     "int": TokenType.INT,

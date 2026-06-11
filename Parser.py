@@ -90,15 +90,22 @@ class InputExpression:
 
 
 class IfStatement:
-    def __init__(self, condition, body):
+    def __init__(
+        self,
+        condition,
+        then_body,
+        else_body=None
+    ):
         self.condition = condition
-        self.body = body
+        self.then_body = then_body
+        self.else_body = else_body
 
     def __repr__(self):
         return (
             f"IfStatement("
             f"{self.condition}, "
-            f"{self.body})"
+            f"{self.then_body}, "
+            f"{self.else_body})"
         )
 
 
@@ -291,20 +298,37 @@ class Parser:
 
         self.eat(TokenType.LBRACE)
 
-        body = []
+        then_body = []
 
         while self.current().type != TokenType.RBRACE:
-            body.append(
+            then_body.append(
                 self.parse_statement()
             )
 
         self.eat(TokenType.RBRACE)
 
+        else_body = None
+
+        if self.current().type == TokenType.ELSE:
+
+            self.eat(TokenType.ELSE)
+
+            self.eat(TokenType.LBRACE)
+
+            else_body = []
+
+            while self.current().type != TokenType.RBRACE:
+                else_body.append(
+                    self.parse_statement()
+                )
+
+            self.eat(TokenType.RBRACE)
+
         return IfStatement(
             condition,
-            body
+            then_body,
+            else_body
         )
-
     def parse_statement(self):
 
         if self.current().type == TokenType.IF:

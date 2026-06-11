@@ -1,10 +1,9 @@
 define _start() {
-
-    int age =
-        int(
-            input("Age: ")
-        )
-
-    println(age)
-
+    int num = int(input("Enter a number: "))
+    if num == 5 then {
+        println("You entered 5")
+    }
+    else {
+        println("You did not enter 5")
+    }
 }
