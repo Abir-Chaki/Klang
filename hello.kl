@@ -1,8 +1,10 @@
 define _start() {
-    ?? Nothing for now
-    ?? Except I broke
-    ?? input()
-    ?? because I added
-    ?? type checking
-    ?? input() will be fixed will typecasting later
+
+    int age =
+        int(
+            input("Age: ")
+        )
+
+    println(age)
+
 }

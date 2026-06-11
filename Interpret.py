@@ -6,7 +6,8 @@ from Parser import (
     VariableReference,
     BinaryExpression,
     IfStatement,
-    InputExpression
+    InputExpression,
+    TypeConversion
 )
 
 
@@ -77,6 +78,31 @@ class Interpreter:
                 )
 
             return input(prompt)
+        
+        if isinstance(node, TypeConversion):
+
+            value = self.evaluate(
+                node.expression
+            )
+
+            if node.target_type == "str":
+                return str(value)
+
+            if node.target_type == "int":
+
+                try:
+                    return int(value)
+
+                except:
+                    raise Exception(
+                        f"Cannot convert "
+                        f"'{value}' to int"
+                    )
+
+            raise Exception(
+                f"Unknown conversion "
+                f"{node.target_type}"
+            )
 
     def execute(self, node):
 
