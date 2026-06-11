@@ -10,6 +10,7 @@ Current features:
 - String concatenation
 - Functions
 - if statements
+- else statements
 - AST generation
 - Token inspection
 
@@ -25,6 +26,9 @@ define _start() {
 
     if age == 18 then {
         println("You are 18")
+    }
+    else {
+        println("You are not 18")
     }
 }
 ```
