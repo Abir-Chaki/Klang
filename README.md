@@ -13,6 +13,7 @@ Current features:
 - if statements
 - else statements
 - Operators
+- variable reassignment
 - AST generation
 - Token inspection
 
@@ -85,16 +86,18 @@ kl --version
 
 ## Roadmap
 
-- variable reassignment
 - while loops
 - user-defined functions
 - functions with parameters
 - return values
-- compiler (klcc)
+- elif/else if/elseif statement
 - Booleans
+- and/or/not keywords
+- compiler (klcc.exe)
+- Standard Libararies
 - Arrays
 - Future OS
 
 ## Status
 
-Current version: Beta Build 0007
+Current version: Beta Build 0008

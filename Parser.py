@@ -64,6 +64,18 @@ class VariableDeclaration:
             f"{self.name}, "
             f"{self.value})"
         )
+    
+class Assignment:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    def __repr__(self):
+        return (
+            f"Assignment("
+            f"{self.name}, "
+            f"{self.value})"
+        )
 
 
 class BinaryExpression:
@@ -281,6 +293,21 @@ class Parser:
             name,
             value
         )
+    
+    def parse_assignment(self):
+
+        name = self.eat(
+            TokenType.IDENTIFIER
+        ).value
+
+        self.eat(TokenType.EQUAL)
+
+        value = self.parse_expression()
+
+        return Assignment(
+            name,
+            value
+        )
 
     def parse_function_call(self):
 
@@ -378,7 +405,6 @@ class Parser:
             else_body
         )
     def parse_statement(self):
-
         if self.current().type == TokenType.IF:
             return self.parse_if()
 
@@ -388,6 +414,13 @@ class Parser:
             TokenType.BOOL
         ):
             return self.parse_variable_declaration()
+
+        if (
+            self.current().type == TokenType.IDENTIFIER
+            and
+            self.tokens[self.pos + 1].type == TokenType.EQUAL
+        ):
+            return self.parse_assignment()
 
         return self.parse_function_call()
 

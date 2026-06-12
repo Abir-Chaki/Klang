@@ -1,23 +1,11 @@
 define _start() {
-    int a = int(input("Enter a number: "))
-    int b = int(input("Enter another number: "))
-    int c = a $ b
-    int d = a % b
-    println(a + "$" + b + "=" + c)
-    int num = int(input("Enter a number: "))
-    if num % 2 == 0 then {
-        println("Even")
-    }
-    if num % 2 != 0 then {
-        println("Odd")
-    }
-    if num >= 1 then {
-        println("Positive")
-    }
-    if num < 0 then {
-        println("Negative")
-    }
-    if num == 0 then {
-        println("0")
-    }
+
+    int x = 5
+
+    println(x)
+
+    x = 10
+
+    println(x)
+
 }

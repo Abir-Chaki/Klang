@@ -8,7 +8,8 @@ from Parser import (
     IfStatement,
     InputExpression,
     TypeConversion,
-    UnaryExpression
+    UnaryExpression,
+    Assignment
 )
 
 
@@ -180,6 +181,52 @@ class Interpreter:
 
             self.variables[node.name] = value
             self.variable_types[node.name] = node.var_type
+
+            return
+        
+        if isinstance(node, Assignment):
+
+            if node.name not in self.variables:
+                raise Exception(
+                    f"Variable '{node.name}' not defined"
+                )
+
+            value = self.evaluate(
+                node.value
+            )
+
+            expected_type = self.variable_types[
+                node.name
+            ]
+
+            if (
+                expected_type == "int"
+                and
+                not isinstance(value, int)
+            ):
+                raise Exception(
+                    f"Type Error: {node.name} expects int"
+                )
+
+            if (
+                expected_type == "str"
+                and
+                not isinstance(value, str)
+            ):
+                raise Exception(
+                    f"Type Error: {node.name} expects str"
+                )
+
+            if (
+                expected_type == "bool"
+                and
+                not isinstance(value, bool)
+            ):
+                raise Exception(
+                    f"Type Error: {node.name} expects bool"
+                )
+
+            self.variables[node.name] = value
 
             return
 

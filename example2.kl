@@ -1,13 +1,9 @@
 define _start() {
 
-    int a = 2 - 1
-    int b = 2 * 3
-    int c = 4 / 2
-    int d = -5
+    int x = 5
 
-    println(a)
-    println(b)
-    println(c)
-    println(d)
+    x = x + 1
+
+    println(x)
 
 }
