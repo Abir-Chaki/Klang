@@ -97,4 +97,4 @@ kl --version
 
 ## Status
 
-Current version: Beta Build 0005
+Current version: Beta Build 0007
