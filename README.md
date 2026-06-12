@@ -11,8 +11,8 @@ Current features:
 - Addition, Subtraction, Multiplication, Division
 - Functions
 - if statements
-- else statement
-- logical operators (>, <, >=, <=)
+- else statements
+- Operators
 - AST generation
 - Token inspection
 
@@ -28,6 +28,9 @@ define _start() {
 
     if age == 18 then {
         println("You are 18")
+    }
+    else {
+        println("You are not 18")
     }
 }
 ```
@@ -82,11 +85,17 @@ kl --version
 
 ## Roadmap
 
+<<<<<<< HEAD
 - variable reassignment
+=======
+>>>>>>> f60000b36c079be7bd989257d4c5f5081ba9f3d8
 - while loops
 - user-defined functions
-- arrays
+- functions with parameters
+- return values
 - compiler (klcc)
+- Booleans
+- Arrays
 - Future OS
 
 ## Status
