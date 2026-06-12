@@ -8,8 +8,11 @@ Current features:
 - User input
 - Type checking
 - String concatenation
+- Addition, Subtraction, Multiplication, Division
 - Functions
 - if statements
+- else statement
+- logical operators (>, <, >=, <=)
 - AST generation
 - Token inspection
 
@@ -79,7 +82,7 @@ kl --version
 
 ## Roadmap
 
-- else statements
+- variable reassignment
 - while loops
 - user-defined functions
 - arrays

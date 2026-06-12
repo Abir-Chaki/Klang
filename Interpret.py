@@ -7,7 +7,8 @@ from Parser import (
     BinaryExpression,
     IfStatement,
     InputExpression,
-    TypeConversion
+    TypeConversion,
+    UnaryExpression
 )
 
 
@@ -41,6 +42,15 @@ class Interpreter:
 
         if isinstance(node, VariableReference):
             return self.variables[node.name]
+        
+        if isinstance(node, UnaryExpression):
+
+            value = self.evaluate(
+                node.operand
+            )
+
+            if node.operator == "-":
+                return -value
 
         if isinstance(node, BinaryExpression):
 
@@ -65,6 +75,40 @@ class Interpreter:
                     return str(left) + str(right)
 
                 return left + right
+            
+            if node.operator == "-":
+                return left - right
+
+            if node.operator == "*":
+                return left * right
+
+            if node.operator == "/":
+                return left // right
+            
+            if node.operator == "%":
+                return left % right
+
+            if node.operator == "$":
+                return left + left + right + right
+
+            if node.operator == ">":
+                return left > right
+
+            if node.operator == "<":
+                return left < right
+
+            if node.operator == ">=":
+                return left >= right
+
+            if node.operator == "<=":
+                return left <= right
+
+            if node.operator == "!=":
+                return left != right
+            
+            raise Exception(
+                f"Unknown operator: {node.operator}"
+            )
             
         if isinstance(node, InputExpression):
 

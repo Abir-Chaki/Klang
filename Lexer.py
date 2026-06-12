@@ -23,7 +23,18 @@ class TokenType(Enum):
 
     EQUAL = auto()
     EQUAL_EQUAL = auto()
-    PLUS = auto()
+    LESS = auto()           # <
+    GREATER = auto()        # >
+    LESS_EQUAL = auto()     # <=
+    GREATER_EQUAL = auto()  # >=
+    NOT_EQUAL = auto()      # !=
+
+    MODULO = auto()         # %
+    DOLLAR = auto()         # $
+    PLUS = auto()           # + 
+    MINUS = auto()          # -
+    MULTIPLY = auto()       # *
+    DIVIDE = auto()         # /
 
     EOF = auto()
 
@@ -129,6 +140,43 @@ class Lexer:
                 self.advance()
                 self.advance()
                 continue
+            if self.current() == ">" and self.peek() == "=":
+                tokens.append(Token(TokenType.GREATER_EQUAL))
+                self.advance()
+                self.advance()
+                continue
+
+            if self.current() == "<" and self.peek() == "=":
+                tokens.append(Token(TokenType.LESS_EQUAL))
+                self.advance()
+                self.advance()
+                continue
+
+            if self.current() == "!" and self.peek() == "=":
+                tokens.append(Token(TokenType.NOT_EQUAL))
+                self.advance()
+                self.advance()
+                continue
+
+            if self.current() == ">":
+                tokens.append(Token(TokenType.GREATER))
+                self.advance()
+                continue
+
+            if self.current() == "<":
+                tokens.append(Token(TokenType.LESS))
+                self.advance()
+                continue
+
+            if self.current() == "%":
+                tokens.append(Token(TokenType.MODULO))
+                self.advance()
+                continue
+
+            if self.current() == "$":
+                tokens.append(Token(TokenType.DOLLAR))
+                self.advance()
+                continue
 
             if self.current() == "=":
                 tokens.append(Token(TokenType.EQUAL))
@@ -139,6 +187,21 @@ class Lexer:
                 tokens.append(
                     Token(TokenType.PLUS)
                 )
+                self.advance()
+                continue
+
+            if self.current() == "-":
+                tokens.append(Token(TokenType.MINUS))
+                self.advance()
+                continue
+
+            if self.current() == "*":
+                tokens.append(Token(TokenType.MULTIPLY))
+                self.advance()
+                continue
+
+            if self.current() == "/":
+                tokens.append(Token(TokenType.DIVIDE))
                 self.advance()
                 continue
 

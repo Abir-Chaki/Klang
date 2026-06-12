@@ -79,6 +79,18 @@ class BinaryExpression:
             f"{self.operator}, "
             f"{self.right})"
         )
+    
+class UnaryExpression:
+    def __init__(self, operator, operand):
+        self.operator = operator
+        self.operand = operand
+
+    def __repr__(self):
+        return (
+            f"UnaryExpression("
+            f"{self.operator}, "
+            f"{self.operand})"
+        )
 
 
 class InputExpression:
@@ -159,27 +171,45 @@ class Parser:
 
         left = self.parse_primary()
 
-        while (
-            self.current().type
-            == TokenType.PLUS
-        ):
+        operator_map = {
+            TokenType.PLUS: "+",
+            TokenType.MINUS: "-",
+            TokenType.MULTIPLY: "*",
+            TokenType.DIVIDE: "/",
+            TokenType.MODULO: "%",
+            TokenType.DOLLAR: "$"
+        }
 
-            self.eat(TokenType.PLUS)
+        while self.current().type in operator_map:
+
+            op = operator_map[
+                self.current().type
+            ]
+
+            self.advance()
 
             right = self.parse_primary()
 
             left = BinaryExpression(
                 left,
-                "+",
+                op,
                 right
             )
 
         return left
-
     def parse_primary(self):
 
         if self.current().type == TokenType.STRING:
             return self.parse_string()
+        
+        if self.current().type == TokenType.MINUS:
+
+            self.eat(TokenType.MINUS)
+
+            return UnaryExpression(
+                "-",
+                self.parse_primary()
+            )
 
         if self.current().type == TokenType.NUMBER:
             return self.parse_number()
@@ -278,13 +308,31 @@ class Parser:
 
         left = self.parse_expression()
 
-        self.eat(TokenType.EQUAL_EQUAL)
+        operator_map = {
+            TokenType.EQUAL_EQUAL: "==",
+            TokenType.NOT_EQUAL: "!=",
+            TokenType.LESS: "<",
+            TokenType.GREATER: ">",
+            TokenType.LESS_EQUAL: "<=",
+            TokenType.GREATER_EQUAL: ">="
+        }
+
+        if self.current().type not in operator_map:
+            raise Exception(
+                f"Expected comparison operator, got {self.current()}"
+            )
+
+        op = operator_map[
+            self.current().type
+        ]
+
+        self.advance()
 
         right = self.parse_expression()
 
         return BinaryExpression(
             left,
-            "==",
+            op,
             right
         )
 
