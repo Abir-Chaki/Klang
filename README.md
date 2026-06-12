@@ -85,10 +85,7 @@ kl --version
 
 ## Roadmap
 
-<<<<<<< HEAD
 - variable reassignment
-=======
->>>>>>> f60000b36c079be7bd989257d4c5f5081ba9f3d8
 - while loops
 - user-defined functions
 - functions with parameters
