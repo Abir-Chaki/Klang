@@ -7,6 +7,8 @@ class TokenType(Enum):
     IF = auto()
     ELSE = auto()
     THEN = auto()
+    WHILE = auto()
+    DO = auto()
 
     IDENTIFIER = auto()
     STRING = auto()
@@ -44,6 +46,8 @@ KEYWORDS = {
     "if": TokenType.IF,
     "then": TokenType.THEN,
     "else": TokenType.ELSE,
+    "while": TokenType.WHILE,
+    "do": TokenType.DO,
 
     "str": TokenType.STR,
     "int": TokenType.INT,

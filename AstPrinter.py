@@ -1,6 +1,5 @@
 from Parser import *
 
-
 class ASTPrinter:
 
     def print(self, node):
@@ -77,6 +76,33 @@ class ASTPrinter:
             print(
                 f"{self.indent(level + 1)}"
                 f"{node.var_type},"
+            )
+
+            print(
+                f"{self.indent(level + 1)}"
+                f"{node.name},"
+            )
+
+            self._print_node(
+                node.value,
+                level + 1
+            )
+
+            print(
+                f"{self.indent(level)})"
+            )
+
+            return
+
+        # -----------------
+        # Assignment
+        # -----------------
+
+        if isinstance(node, Assignment):
+
+            print(
+                f"{self.indent(level)}"
+                f"Assignment("
             )
 
             print(
@@ -223,6 +249,33 @@ class ASTPrinter:
             return
 
         # -----------------
+        # UnaryExpression
+        # -----------------
+
+        if isinstance(node, UnaryExpression):
+
+            print(
+                f"{self.indent(level)}"
+                f"UnaryExpression("
+            )
+
+            print(
+                f"{self.indent(level + 1)}"
+                f"{node.operator}"
+            )
+
+            self._print_node(
+                node.operand,
+                level + 1
+            )
+
+            print(
+                f"{self.indent(level)})"
+            )
+
+            return
+
+        # -----------------
         # BinaryExpression
         # -----------------
 
@@ -317,7 +370,51 @@ class ASTPrinter:
 
             return
 
+        # -----------------
+        # WhileStatement
+        # -----------------
+
+        if isinstance(node, WhileStatement):
+
+            print(
+                f"{self.indent(level)}"
+                f"WhileStatement("
+            )
+
+            self._print_node(
+                node.condition,
+                level + 1
+            )
+
+            print(
+                f"{self.indent(level + 1)}"
+                f"DO"
+            )
+
+            print(
+                f"{self.indent(level + 1)}["
+            )
+
+            for stmt in node.body:
+
+                self._print_node(
+                    stmt,
+                    level + 2
+                )
+
+            print(
+                f"{self.indent(level + 1)}]"
+            )
+
+            print(
+                f"{self.indent(level)}"
+                f")"
+            )
+
+            return
+
         print(
             f"{self.indent(level)}"
             f"{node}"
         )
+

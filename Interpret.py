@@ -9,7 +9,8 @@ from Parser import (
     InputExpression,
     TypeConversion,
     UnaryExpression,
-    Assignment
+    Assignment,
+    WhileStatement
 )
 
 
@@ -244,6 +245,17 @@ class Interpreter:
             elif node.else_body:
 
                 for stmt in node.else_body:
+                    self.execute(stmt)
+
+            return
+        
+        if isinstance(node, WhileStatement):
+
+            while self.evaluate(
+                node.condition
+            ):
+
+                for stmt in node.body:
                     self.execute(stmt)
 
             return

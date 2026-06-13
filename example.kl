@@ -1,11 +1,13 @@
 define _start() {
 
-    int x = 5
+    int i = 1
 
-    println(x)
+    while i <= 5 do {
 
-    x = 10
+        println(i)
 
-    println(x)
+        i = i + 1
+
+    }
 
 }

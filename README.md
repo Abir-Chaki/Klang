@@ -14,6 +14,7 @@ Current features:
 - else statements
 - Operators
 - variable reassignment
+- while loops
 - AST generation
 - Token inspection
 
@@ -86,7 +87,6 @@ kl --version
 
 ## Roadmap
 
-- while loops
 - user-defined functions
 - functions with parameters
 - return values
@@ -96,6 +96,8 @@ kl --version
 - compiler (klcc.exe)
 - Standard Libararies
 - Arrays
+- Array Indexing
+- for loops
 - Future OS
 
 ## Status

@@ -131,6 +131,18 @@ class IfStatement:
             f"{self.then_body}, "
             f"{self.else_body})"
         )
+    
+class WhileStatement:
+    def __init__(self, condition, body):
+        self.condition = condition
+        self.body = body
+
+    def __repr__(self):
+        return (
+            f"WhileStatement("
+            f"{self.condition}, "
+            f"{self.body})"
+        )
 
 
 class TypeConversion:
@@ -404,9 +416,36 @@ class Parser:
             then_body,
             else_body
         )
+    
+    def parse_while(self):
+
+        self.eat(TokenType.WHILE)
+
+        condition = self.parse_condition()
+
+        self.eat(TokenType.DO)
+
+        self.eat(TokenType.LBRACE)
+
+        body = []
+
+        while self.current().type != TokenType.RBRACE:
+            body.append(
+                self.parse_statement()
+            )
+
+        self.eat(TokenType.RBRACE)
+
+        return WhileStatement(
+            condition,
+            body
+        )
     def parse_statement(self):
         if self.current().type == TokenType.IF:
             return self.parse_if()
+        
+        if self.current().type == TokenType.WHILE:
+            return self.parse_while()
 
         if self.current().type in (
             TokenType.STR,

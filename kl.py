@@ -6,7 +6,7 @@ from Interpret import Interpreter
 from AstPrinter import ASTPrinter
 
 
-VERSION = "Beta-0008"
+VERSION = "Beta-0009"
 
 
 def print_help():
