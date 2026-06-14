@@ -15,14 +15,14 @@ Current features:
 - Operators
 - variable reassignment
 - while loops
+- user-defined functions
 - AST generation
 - Token inspection
 
 ## Example
 
 ```kl
-define _start() {
-
+define chk() {
     str name = input("Name: ")
     int age = int(input("Age: "))
 
@@ -34,6 +34,10 @@ define _start() {
     else {
         println("You are not 18")
     }
+}
+
+define _start() {
+    chk()
 }
 ```
 
@@ -87,7 +91,6 @@ kl --version
 
 ## Roadmap
 
-- user-defined functions
 - functions with parameters
 - return values
 - elif/else if/elseif statement
@@ -98,8 +101,9 @@ kl --version
 - Arrays
 - Array Indexing
 - for loops
+- file API
 - Future OS
 
 ## Status
 
-Current version: Beta Build 0008
+Current version: Beta Build 0010

@@ -20,15 +20,19 @@ class Interpreter:
         self.ast = ast
         self.variables = {}
         self.variable_types = {}
+        self.functions = {}
 
     def run(self):
 
         for f in self.ast.functions:
-            if f.name == "_start":
-                self.exec_block(f.body)
-                return
+            self.functions[f.name] = f
 
-        raise Exception("No _start")
+        if "_start" not in self.functions:
+            raise Exception("No _start")
+
+        self.exec_block(
+            self.functions["_start"].body
+        )
 
     def exec_block(self, body):
         for stmt in body:
@@ -266,9 +270,22 @@ class Interpreter:
 
             if node.name == "print":
                 print(args[0], end="")
+                return
 
-            elif node.name == "println":
+            if node.name == "println":
                 print(args[0])
+                return
 
-            else:
-                raise Exception(f"Unknown fn {node.name}")
+            if node.name in self.functions:
+
+                func = self.functions[node.name]
+
+                self.exec_block(
+                    func.body
+                )
+
+                return
+
+            raise Exception(
+                f"Unknown fn {node.name}"
+            )
