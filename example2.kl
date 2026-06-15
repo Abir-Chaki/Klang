@@ -1,8 +1,9 @@
-define test() {
-    println("Test")
-    test()
+define add(int a, int b) {
+    println(a + b)
 }
 
 define _start() {
-    test()
+    int num1 = int(input("Enter first number: "))
+    int num2 = int(input("Enter second number: "))
+    add(num1, num2)
 }

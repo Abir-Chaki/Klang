@@ -1,11 +1,9 @@
-define hello() {
-    println("Hello!")
-}
-
-define greet() {
-    hello()
+define greet(str name) {
+    print("Hello ")
+    println(name)
 }
 
 define _start() {
-    greet()
+    str name = input("Enter your name: ")
+    greet(name)
 }

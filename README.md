@@ -16,6 +16,7 @@ Current features:
 - variable reassignment
 - while loops
 - user-defined functions
+- functions with parameters
 - AST generation
 - Token inspection
 
@@ -72,17 +73,59 @@ kl --version
 ```text
 {
     FunctionDef(
+        add,
+        PARAMS
+        [
+            (int, a)
+            (int, b)
+        ]
+        BODY
+        [
+            FunctionCall(
+                println,
+                [
+                    BinaryExpression(
+                        VariableReference(a)
+                        +
+                        VariableReference(b)
+                    )
+                ]
+            )
+        ]
+    )
+    FunctionDef(
         _start,
+        PARAMS
+        [
+        ]
+        BODY
         [
             VariableDeclaration(
                 int,
-                age,
+                num1,
                 TypeConversion(
                     int,
                     InputExpression(
-                        StringLiteral("Age: ")
+                        StringLiteral("Enter first number: ")
                     )
                 )
+            )
+            VariableDeclaration(
+                int,
+                num2,
+                TypeConversion(
+                    int,
+                    InputExpression(
+                        StringLiteral("Enter second number: ")
+                    )
+                )
+            )
+            FunctionCall(
+                add,
+                [
+                    VariableReference(num1)
+                    VariableReference(num2)
+                ]
             )
         ]
     )
@@ -91,7 +134,7 @@ kl --version
 
 ## Roadmap
 
-- functions with parameters
+
 - return values
 - elif/else if/elseif statement
 - Booleans
@@ -106,4 +149,4 @@ kl --version
 
 ## Status
 
-Current version: Beta Build 0010
+Current version: Beta Build 0011

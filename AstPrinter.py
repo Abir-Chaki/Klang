@@ -43,6 +43,31 @@ class ASTPrinter:
             )
 
             print(
+                f"{self.indent(level + 1)}"
+                f"PARAMS"
+            )
+
+            print(
+                f"{self.indent(level + 1)}["
+            )
+
+            for param_type, param_name in node.params:
+
+                print(
+                    f"{self.indent(level + 2)}"
+                    f"({param_type}, {param_name})"
+                )
+
+            print(
+                f"{self.indent(level + 1)}]"
+            )
+
+            print(
+                f"{self.indent(level + 1)}"
+                f"BODY"
+            )
+
+            print(
                 f"{self.indent(level + 1)}["
             )
 
@@ -57,7 +82,8 @@ class ASTPrinter:
             )
 
             print(
-                f"{self.indent(level)})"
+                f"{self.indent(level)}"
+                f")"
             )
 
             return

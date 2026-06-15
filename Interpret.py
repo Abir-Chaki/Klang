@@ -266,7 +266,10 @@ class Interpreter:
 
         if isinstance(node, FunctionCall):
 
-            args = [self.evaluate(a) for a in node.args]
+            args = [
+                self.evaluate(a)
+                for a in node.args
+            ]
 
             if node.name == "print":
                 print(args[0], end="")
@@ -278,11 +281,84 @@ class Interpreter:
 
             if node.name in self.functions:
 
-                func = self.functions[node.name]
+                func = self.functions[
+                    node.name
+                ]
+
+                if len(args) != len(func.params):
+
+                    raise Exception(
+                        f"{node.name} expects "
+                        f"{len(func.params)} "
+                        f"arguments"
+                    )
+
+                old_vars = self.variables.copy()
+                old_types = self.variable_types.copy()
+
+                for i in range(
+                    len(func.params)
+                ):
+
+                    param_type, param_name = (
+                        func.params[i]
+                    )
+
+                    value = args[i]
+
+                    if (
+                        param_type == "int"
+                        and
+                        not isinstance(
+                            value,
+                            int
+                        )
+                    ):
+                        raise Exception(
+                            f"{param_name} "
+                            f"expects int"
+                        )
+
+                    if (
+                        param_type == "str"
+                        and
+                        not isinstance(
+                            value,
+                            str
+                        )
+                    ):
+                        raise Exception(
+                            f"{param_name} "
+                            f"expects str"
+                        )
+
+                    if (
+                        param_type == "bool"
+                        and
+                        not isinstance(
+                            value,
+                            bool
+                        )
+                    ):
+                        raise Exception(
+                            f"{param_name} "
+                            f"expects bool"
+                        )
+
+                    self.variables[
+                        param_name
+                    ] = value
+
+                    self.variable_types[
+                        param_name
+                    ] = param_type
 
                 self.exec_block(
                     func.body
                 )
+
+                self.variables = old_vars
+                self.variable_types = old_types
 
                 return
 

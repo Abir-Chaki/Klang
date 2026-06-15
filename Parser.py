@@ -10,12 +10,23 @@ class Program:
 
 
 class FunctionDef:
-    def __init__(self, name, body):
+    def __init__(
+        self,
+        name,
+        params,
+        body
+    ):
         self.name = name
+        self.params = params
         self.body = body
 
     def __repr__(self):
-        return f"FunctionDef({self.name}, {self.body})"
+        return (
+            f"FunctionDef("
+            f"{self.name}, "
+            f"{self.params}, "
+            f"{self.body})"
+        )
 
 
 class FunctionCall:
@@ -332,9 +343,21 @@ class Parser:
         args = []
 
         if self.current().type != TokenType.RPAREN:
+
             args.append(
                 self.parse_expression()
             )
+
+            while (
+                self.current().type
+                == TokenType.COMMA
+            ):
+
+                self.eat(TokenType.COMMA)
+
+                args.append(
+                    self.parse_expression()
+                )
 
         self.eat(TokenType.RPAREN)
 
@@ -472,6 +495,37 @@ class Parser:
         ).value
 
         self.eat(TokenType.LPAREN)
+
+        params = []
+
+        if self.current().type != TokenType.RPAREN:
+
+            param_type = self.current().value
+            self.advance()
+
+            param_name = self.eat(
+                TokenType.IDENTIFIER
+            ).value
+
+            params.append(
+                (param_type, param_name)
+            )
+
+            while self.current().type == TokenType.COMMA:
+
+                self.eat(TokenType.COMMA)
+
+                param_type = self.current().value
+                self.advance()
+
+                param_name = self.eat(
+                    TokenType.IDENTIFIER
+                ).value
+
+                params.append(
+                    (param_type, param_name)
+                )
+
         self.eat(TokenType.RPAREN)
 
         self.eat(TokenType.LBRACE)
@@ -487,6 +541,7 @@ class Parser:
 
         return FunctionDef(
             name,
+            params,
             body
         )
 

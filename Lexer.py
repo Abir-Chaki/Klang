@@ -18,6 +18,7 @@ class TokenType(Enum):
     RPAREN = auto()
     LBRACE = auto()
     RBRACE = auto()
+    COMMA = auto()
 
     STR = auto()
     INT = auto()
@@ -206,6 +207,11 @@ class Lexer:
 
             if self.current() == "/":
                 tokens.append(Token(TokenType.DIVIDE))
+                self.advance()
+                continue
+
+            if self.current() == ",":
+                tokens.append(Token(TokenType.COMMA))
                 self.advance()
                 continue
 
