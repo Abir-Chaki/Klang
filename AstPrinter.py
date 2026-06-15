@@ -391,6 +391,27 @@ class ASTPrinter:
                 f"{self.indent(level + 1)}]"
             )
 
+            if len(node.elseifs) > 0:
+
+                print(
+                    f"{self.indent(level + 1)}"
+                    f"ELSEIFS"
+                )
+
+                print(
+                    f"{self.indent(level + 1)}["
+                )
+
+                for elseif in node.elseifs:
+                    self._print_node(
+                        elseif,
+                        level + 2
+                    )
+
+                print(
+                    f"{self.indent(level + 1)}]"
+                )
+
             if node.else_body is not None:
 
                 print(
@@ -411,6 +432,48 @@ class ASTPrinter:
                 print(
                     f"{self.indent(level + 1)}]"
                 )
+
+            print(
+                f"{self.indent(level)}"
+                f")"
+            )
+
+            return
+        
+        # -----------------
+        # ElseIfStatement
+        # -----------------
+
+        if isinstance(node, ElseIfStatement):
+
+            print(
+                f"{self.indent(level)}"
+                f"ElseIfStatement("
+            )
+
+            self._print_node(
+                node.condition,
+                level + 1
+            )
+
+            print(
+                f"{self.indent(level + 1)}"
+                f"THEN"
+            )
+
+            print(
+                f"{self.indent(level + 1)}["
+            )
+
+            for stmt in node.body:
+                self._print_node(
+                    stmt,
+                    level + 2
+                )
+
+            print(
+                f"{self.indent(level + 1)}]"
+            )
 
             print(
                 f"{self.indent(level)}"

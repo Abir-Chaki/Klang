@@ -136,10 +136,12 @@ class IfStatement:
         self,
         condition,
         then_body,
+        elseifs=None,
         else_body=None
     ):
         self.condition = condition
         self.then_body = then_body
+        self.elseifs = elseifs or []
         self.else_body = else_body
 
     def __repr__(self):
@@ -147,8 +149,22 @@ class IfStatement:
             f"IfStatement("
             f"{self.condition}, "
             f"{self.then_body}, "
+            f"{self.elseifs}, "
             f"{self.else_body})"
         )
+class ElseIfStatement:
+    def __init__(self, condition, body):
+        self.condition = condition
+        self.body = body
+
+    def __repr__(self):
+        return (
+            f"ElseIfStatement("
+            f"{self.condition}, "
+            f"{self.body})"
+        )
+    
+
     
 class WhileStatement:
     def __init__(self, condition, body):
@@ -447,6 +463,33 @@ class Parser:
         self.eat(TokenType.RBRACE)
 
         else_body = None
+        elseifs = []
+
+        while self.current().type == TokenType.ELSEIF:
+
+            self.eat(TokenType.ELSEIF)
+
+            elseif_condition = self.parse_condition()
+
+            self.eat(TokenType.THEN)
+
+            self.eat(TokenType.LBRACE)
+
+            body = []
+
+            while self.current().type != TokenType.RBRACE:
+                body.append(
+                    self.parse_statement()
+                )
+
+            self.eat(TokenType.RBRACE)
+
+            elseifs.append(
+                ElseIfStatement(
+                    elseif_condition,
+                    body
+                )
+            )
 
         if self.current().type == TokenType.ELSE:
 
@@ -466,6 +509,7 @@ class Parser:
         return IfStatement(
             condition,
             then_body,
+            elseifs,
             else_body
         )
     

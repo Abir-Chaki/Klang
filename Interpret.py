@@ -275,16 +275,27 @@ class Interpreter:
 
         if isinstance(node, IfStatement):
 
-            condition = self.evaluate(
+            if self.evaluate(
                 node.condition
-            )
-
-            if condition:
+            ):
 
                 for stmt in node.then_body:
                     self.execute(stmt)
 
-            elif node.else_body:
+                return
+
+            for elseif in node.elseifs:
+
+                if self.evaluate(
+                    elseif.condition
+                ):
+
+                    for stmt in elseif.body:
+                        self.execute(stmt)
+
+                    return
+
+            if node.else_body:
 
                 for stmt in node.else_body:
                     self.execute(stmt)

@@ -5,6 +5,7 @@ class TokenType(Enum):
     DEFINE = auto()
 
     IF = auto()
+    ELSEIF = auto()
     ELSE = auto()
     THEN = auto()
     WHILE = auto()
@@ -47,6 +48,7 @@ KEYWORDS = {
     "define": TokenType.DEFINE,
     "if": TokenType.IF,
     "then": TokenType.THEN,
+    "elseif": TokenType.ELSEIF,
     "else": TokenType.ELSE,
     "while": TokenType.WHILE,
     "do": TokenType.DO,

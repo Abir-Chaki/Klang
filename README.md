@@ -18,6 +18,7 @@ Current features:
 - user-defined functions
 - functions with parameters
 - return values
+- elseif statements
 - AST generation
 - Token inspection
 
@@ -140,7 +141,6 @@ kl --version
 
 ## Roadmap
 
-- elif/else if/elseif statement
 - Booleans
 - and/or/not keywords
 - compiler (klcc.exe)
@@ -153,4 +153,4 @@ kl --version
 
 ## Status
 
-Current version: Beta Build 0012
+Current version: Beta Build 0013
