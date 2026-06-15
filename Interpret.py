@@ -10,8 +10,13 @@ from Parser import (
     TypeConversion,
     UnaryExpression,
     Assignment,
-    WhileStatement
+    WhileStatement,
+    ReturnStatement
 )
+
+class ReturnException(Exception):
+    def __init__(self, value):
+        self.value = value
 
 
 class Interpreter:
@@ -115,6 +120,39 @@ class Interpreter:
             raise Exception(
                 f"Unknown operator: {node.operator}"
             )
+        
+        if isinstance(node, FunctionCall):
+
+            func = self.functions[node.name]
+
+            old_variables = self.variables.copy()
+            old_types = self.variable_types.copy()
+
+            for (ptype, pname), arg in zip(
+                func.params,
+                node.args
+            ):
+
+                value = self.evaluate(arg)
+
+                self.variables[pname] = value
+                self.variable_types[pname] = ptype
+
+            try:
+
+                self.exec_block(func.body)
+
+            except ReturnException as r:
+
+                self.variables = old_variables
+                self.variable_types = old_types
+
+                return r.value
+
+            self.variables = old_variables
+            self.variable_types = old_types
+
+            return None
             
         if isinstance(node, InputExpression):
 
@@ -360,8 +398,15 @@ class Interpreter:
                 self.variables = old_vars
                 self.variable_types = old_types
 
-                return
+                return    
 
             raise Exception(
                 f"Unknown fn {node.name}"
             )
+        if isinstance(node, ReturnStatement):
+
+                value = self.evaluate(
+                    node.value
+                )
+
+                raise ReturnException(value)

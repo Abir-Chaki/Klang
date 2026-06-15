@@ -6,4 +6,4 @@ dist/
 build/
 kl.exe
 compile.ps1
-
+test.kl

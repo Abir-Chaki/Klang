@@ -9,6 +9,7 @@ class TokenType(Enum):
     THEN = auto()
     WHILE = auto()
     DO = auto()
+    RETURN = auto()
 
     IDENTIFIER = auto()
     STRING = auto()
@@ -53,6 +54,7 @@ KEYWORDS = {
     "str": TokenType.STR,
     "int": TokenType.INT,
     "bool": TokenType.BOOL,
+    "return": TokenType.RETURN  
 }
 
 
@@ -93,6 +95,32 @@ class Lexer:
     def skip_comment(self):
         while self.current() and self.current() != "\n":
             self.advance()
+
+    def skip_multiline_comment(self):
+
+        # Skip "</"
+        self.advance()
+        self.advance()
+
+        while self.current():
+
+            if (
+                self.current() == "/"
+                and
+                self.peek() == ">"
+            ):
+
+                # Skip "/>"
+                self.advance()
+                self.advance()
+
+                return
+
+            self.advance()
+
+        raise Exception(
+            "Unterminated multiline comment"
+        )
 
     def identifier(self):
         result = ""
@@ -137,6 +165,15 @@ class Lexer:
 
             if self.current() == "?" and self.peek() == "?":
                 self.skip_comment()
+                continue
+            
+
+            if (
+                self.current() == "<"
+                and
+                self.peek() == "/"
+            ):
+                self.skip_multiline_comment()
                 continue
 
             # ==

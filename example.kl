@@ -1,9 +1,10 @@
-define greet(str name) {
-    print("Hello ")
-    println(name)
+define add(int a, int b) {
+    return int(a + b)
 }
 
 define _start() {
-    str name = input("Enter your name: ")
-    greet(name)
+    int a = int(input("Enter first number: "))
+    int b = int(input("Enter second number: "))
+    int result = add(a, b)
+    println("Sum is " + result)
 }

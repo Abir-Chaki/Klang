@@ -87,6 +87,29 @@ class ASTPrinter:
             )
 
             return
+        
+        # -----------------
+        # ReturnStatement
+        # -----------------
+
+        if isinstance(node, ReturnStatement):
+
+            print(
+                f"{self.indent(level)}"
+                f"ReturnStatement("
+            )
+
+            self._print_node(
+                node.value,
+                level + 1
+            )
+
+            print(
+                f"{self.indent(level)}"
+                f")"
+            )
+
+            return
 
         # -----------------
         # VariableDeclaration

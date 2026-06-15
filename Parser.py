@@ -27,6 +27,13 @@ class FunctionDef:
             f"{self.params}, "
             f"{self.body})"
         )
+    
+class ReturnStatement:
+    def __init__(self, value):
+        self.value = value
+
+    def __repr__(self):
+        return f"ReturnStatement({self.value})"
 
 
 class FunctionCall:
@@ -275,22 +282,44 @@ class Parser:
                 TokenType.IDENTIFIER
             ).value
 
-            if (
-                name == "input"
-                and
-                self.current().type == TokenType.LPAREN
-            ):
+            if self.current().type == TokenType.LPAREN:
 
                 self.eat(TokenType.LPAREN)
 
-                prompt = None
+                args = []
 
                 if self.current().type != TokenType.RPAREN:
-                    prompt = self.parse_expression()
+
+                    args.append(
+                        self.parse_expression()
+                    )
+
+                    while (
+                        self.current().type
+                        == TokenType.COMMA
+                    ):
+
+                        self.eat(TokenType.COMMA)
+
+                        args.append(
+                            self.parse_expression()
+                        )
 
                 self.eat(TokenType.RPAREN)
 
-                return InputExpression(prompt)
+                if name == "input":
+
+                    prompt = None
+
+                    if len(args) > 0:
+                        prompt = args[0]
+
+                    return InputExpression(prompt)
+
+                return FunctionCall(
+                    name,
+                    args
+                )
 
             return VariableReference(name)
 
@@ -469,6 +498,9 @@ class Parser:
         
         if self.current().type == TokenType.WHILE:
             return self.parse_while()
+        
+        if self.current().type == TokenType.RETURN:
+            return self.parse_return()
 
         if self.current().type in (
             TokenType.STR,
@@ -544,6 +576,14 @@ class Parser:
             params,
             body
         )
+    
+    def parse_return(self):
+
+        self.eat(TokenType.RETURN)
+
+        value = self.parse_expression()
+
+        return ReturnStatement(value)
 
     def parse(self):
 

@@ -6,7 +6,7 @@ from Interpret import Interpreter
 from AstPrinter import ASTPrinter
 
 
-VERSION = "Beta-0011"
+VERSION = "Beta-0012"
 
 
 def print_help():
@@ -90,7 +90,11 @@ def main():
     parser = Parser(tokens)
     ast = parser.parse()
 
-    if mode == "-a":
+    try:
+        if mode == "-a" and sys.argv[3] == "--disable-pretty-print":
+            print(ast)
+            sys.exit(0)
+    except IndexError:
 
         printer = ASTPrinter()
         printer.print(ast)

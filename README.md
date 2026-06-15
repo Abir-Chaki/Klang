@@ -17,6 +17,7 @@ Current features:
 - while loops
 - user-defined functions
 - functions with parameters
+- return values
 - AST generation
 - Token inspection
 
@@ -38,7 +39,12 @@ define chk() {
 }
 
 define _start() {
-    chk()
+    chk() ?? This is a single line comment
+    </
+    This is a
+    multiline
+    comment
+    />
 }
 ```
 
@@ -134,8 +140,6 @@ kl --version
 
 ## Roadmap
 
-
-- return values
 - elif/else if/elseif statement
 - Booleans
 - and/or/not keywords
@@ -149,4 +153,4 @@ kl --version
 
 ## Status
 
-Current version: Beta Build 0011
+Current version: Beta Build 0012
