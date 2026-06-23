@@ -59,6 +59,14 @@ class IntegerLiteral:
 
     def __repr__(self):
         return f"Integer({self.value})"
+    
+class BooleanLiteral:
+
+    def __init__(self, value):
+        self.value = value
+
+    def __repr__(self):
+        return f"Boolean({self.value})"
 
 
 class VariableReference:
@@ -224,6 +232,15 @@ class Parser:
         return IntegerLiteral(
             self.eat(TokenType.NUMBER).value
         )
+    
+    def parse_boolean(self):
+
+        if self.current().type == TokenType.BOOL1:
+            self.advance()
+            return BooleanLiteral(True)
+
+        self.advance()
+        return BooleanLiteral(False)
 
     def parse_expression(self):
 
@@ -291,6 +308,12 @@ class Parser:
                 target_type,
                 expr
             )
+        
+        if self.current().type in (
+            TokenType.BOOL1,
+            TokenType.BOOL0
+        ):
+            return self.parse_boolean()
 
         if self.current().type == TokenType.IDENTIFIER:
 
@@ -425,9 +448,7 @@ class Parser:
         }
 
         if self.current().type not in operator_map:
-            raise Exception(
-                f"Expected comparison operator, got {self.current()}"
-            )
+            return left
 
         op = operator_map[
             self.current().type
@@ -441,7 +462,7 @@ class Parser:
             left,
             op,
             right
-        )
+        )    
 
     def parse_if(self):
 

@@ -1,29 +1,12 @@
 define _start() {
-    int i = 1
-    while i < 2 do {
-        str grade = str(input("Enter your grade: "))
-        if grade == "A" then {
-            println("Excellent!")
-            i = i + 1
-        }
-        elseif grade == "B" then {
-            println("Good!")
-            i = i + 1
-        }
-        elseif grade == "C" then {
-            println("Fair")
-            i = i + 1
-        }
-        elseif grade == "D" then {
-            println("Scope for Improvement")
-            i = i + 1
-        }
-        elseif grade == "F" then {
-            println("YOU FAILED!")
-            i = i + 1
-        }
-        else {
-            println("Invalid Grade")
-        }
+
+    bool isCool = Yes       ?? Tokenized to BOOL1
+    bool hungry = No        ?? Tokenized to BOOL0
+
+    if isCool then {
+        println("You are Cool")
+    }
+    if hungry == Yes then {
+        println("You are hungry")
     }
 }

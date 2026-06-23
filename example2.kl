@@ -1,12 +1,18 @@
 define _start() {
-    int num = int(input("Enter a number: "))
-    if num > 0 then {
-        println(num + " is positive")
+
+    </
+    IMPORTANT
+    This will not run unless you
+    use --use-classic-booleans
+    />
+
+    bool isCool = True      ?? Tokenized to BOOL1
+    bool hungry = False     ?? Tokenized to BOOL0
+
+    if isCool then {
+        println("You are Cool")
     }
-    elseif num < 0 then {
-        println(num + " is negative")
-    }
-    else {
-        println("You entered 0")
+    if hungry == True then {
+        println("You are hungry")
     }
 }

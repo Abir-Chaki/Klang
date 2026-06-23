@@ -6,7 +6,7 @@ from Interpret import Interpreter
 from AstPrinter import ASTPrinter
 
 
-VERSION = "Beta Build 0013"
+VERSION = "Beta Build 0014"
 
 
 def print_help():
@@ -16,12 +16,14 @@ def print_help():
     print("    kl <file.kl>")
     print("    kl <file.kl> -t")
     print("    kl <file.kl> -a")
+    print("    kl <file.kl> --use-classic-booleans")
     print()
     print("Options:")
-    print("    -t          Print tokens only")
-    print("    -a          Print AST only")
-    print("    --version   Show version")
-    print("    --help      Show help")
+    print("    -t                           Print tokens only")
+    print("    -a                           Print AST only")
+    print("    --version                    Show version")
+    print("    --help                       Show help")
+    print("    --use-classic-booleans       Use True/False instead of Yes/No")
 
 
 def main():
@@ -54,8 +56,19 @@ def main():
 
     mode = "run"
 
-    if len(sys.argv) >= 3:
-        mode = sys.argv[2]
+    use_classic_booleans = (
+        "--use-classic-booleans"
+        in sys.argv
+    )
+
+    if "-t" in sys.argv or "-a" in sys.argv:
+        try:
+            pos = sys.argv.index("-t")
+        except ValueError:
+            pos = sys.argv.index("-a")
+        
+        mode = sys.argv[pos]
+
 
     # -------------------------
     # Read file
@@ -73,7 +86,7 @@ def main():
     # Lexing
     # -------------------------
 
-    lexer = Lexer(code)
+    lexer = Lexer(code, use_classic_booleans)
     tokens = lexer.tokenize()
 
     if mode == "-t":
@@ -90,14 +103,13 @@ def main():
     parser = Parser(tokens)
     ast = parser.parse()
 
-    try:
-        if mode == "-a" and sys.argv[3] == "--disable-pretty-print":
-            print(ast)
-            sys.exit(0)
-    except IndexError:
+    if mode == "-a":
 
-        printer = ASTPrinter()
-        printer.print(ast)
+        if "--disable-pretty-print" in sys.argv:
+            print(ast)
+        else:
+            printer = ASTPrinter()
+            printer.print(ast)
 
         sys.exit(0)
 

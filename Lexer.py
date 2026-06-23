@@ -26,6 +26,9 @@ class TokenType(Enum):
     INT = auto()
     BOOL = auto()
 
+    BOOL1 = auto()
+    BOOL0 = auto()
+
     EQUAL = auto()
     EQUAL_EQUAL = auto()
     LESS = auto()           # <
@@ -73,9 +76,12 @@ class Token:
 
 class Lexer:
 
-    def __init__(self, text):
+    def __init__(self, text, use_classic_booleans=False):
         self.text = text
         self.pos = 0
+
+        self.use_classic_booleans = use_classic_booleans
+        
 
     def current(self):
         if self.pos >= len(self.text):
@@ -127,14 +133,44 @@ class Lexer:
     def identifier(self):
         result = ""
 
-        while self.current() and (self.current().isalnum() or self.current() == "_"):
+        while (
+            self.current()
+            and
+            (
+                self.current().isalnum()
+                or
+                self.current() == "_"
+            )
+        ):
             result += self.current()
             self.advance()
 
-        if result in KEYWORDS:
-            return Token(KEYWORDS[result], result)
+        if self.use_classic_booleans:
 
-        return Token(TokenType.IDENTIFIER, result)
+            if result == "True":
+                return Token(TokenType.BOOL1, True)
+
+            if result == "False":
+                return Token(TokenType.BOOL0, False)
+
+        else:
+
+            if result == "Yes":
+                return Token(TokenType.BOOL1, "Yes")
+
+            if result == "No":
+                return Token(TokenType.BOOL0, "No")
+
+        if result in KEYWORDS:
+            return Token(
+                KEYWORDS[result],
+                result
+            )
+
+        return Token(
+            TokenType.IDENTIFIER,
+            result
+        )
 
     def string(self):
         self.advance()

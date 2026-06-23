@@ -283,6 +283,19 @@ class ASTPrinter:
             )
 
             return
+        
+        # -----------------
+        # BooleanLiteral
+        # -----------------
+
+        if isinstance(node, BooleanLiteral):
+
+            print(
+                f"{self.indent(level)}"
+                f"BooleanLiteral({node.value})"
+            )
+
+            return
 
         # -----------------
         # IntegerLiteral

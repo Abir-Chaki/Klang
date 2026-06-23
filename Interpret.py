@@ -2,6 +2,7 @@ from Parser import (
     FunctionCall,
     StringLiteral,
     IntegerLiteral,
+    BooleanLiteral,
     VariableDeclaration,
     VariableReference,
     BinaryExpression,
@@ -49,6 +50,9 @@ class Interpreter:
             return node.value
 
         if isinstance(node, IntegerLiteral):
+            return node.value
+        
+        if isinstance(node, BooleanLiteral):
             return node.value
 
         if isinstance(node, VariableReference):
@@ -275,9 +279,16 @@ class Interpreter:
 
         if isinstance(node, IfStatement):
 
-            if self.evaluate(
+            condition = self.evaluate(
                 node.condition
-            ):
+            )
+
+            if not isinstance(condition, bool):
+                raise Exception(
+                    "Type Error: if condition must be bool"
+                )
+
+            if condition:
 
                 for stmt in node.then_body:
                     self.execute(stmt)
@@ -286,9 +297,19 @@ class Interpreter:
 
             for elseif in node.elseifs:
 
-                if self.evaluate(
+                elseif_condition = self.evaluate(
                     elseif.condition
+                )
+
+                if not isinstance(
+                    elseif_condition,
+                    bool
                 ):
+                    raise Exception(
+                        "Type Error: elseif condition must be bool"
+                    )
+
+                if elseif_condition:
 
                     for stmt in elseif.body:
                         self.execute(stmt)
@@ -304,12 +325,28 @@ class Interpreter:
         
         if isinstance(node, WhileStatement):
 
-            while self.evaluate(
+            condition = self.evaluate(
                 node.condition
-            ):
+            )
+
+            if not isinstance(condition, bool):
+                raise Exception(
+                    "Type Error: while condition must be bool"
+                )
+
+            while condition:
 
                 for stmt in node.body:
                     self.execute(stmt)
+
+                condition = self.evaluate(
+                    node.condition
+                )
+
+                if not isinstance(condition, bool):
+                    raise Exception(
+                        "Type Error: while condition must be bool"
+                    )
 
             return
 

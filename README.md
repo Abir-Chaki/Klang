@@ -19,6 +19,7 @@ Current features:
 - functions with parameters
 - return values
 - elseif statements
+- Booleans
 - AST generation
 - Token inspection
 
@@ -140,17 +141,18 @@ kl --version
 ```
 
 ## Roadmap
-
-- Booleans
+ 
 - and/or/not keywords
-- compiler (klcc.exe)
+- break/continue
 - Standard Libararies
+- compiler (klcc.exe)
 - Arrays
 - Array Indexing
 - for loops
 - file API
+- Inline Assembly/C++
 - Future OS
 
 ## Status
 
-Current version: Beta Build 0013
+Current version: Beta Build 0014
