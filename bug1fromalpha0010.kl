@@ -1,0 +1,4 @@
+define _start() {
+    print("Hello World!\n")
+    print("I like Klang!\n\n")
+}

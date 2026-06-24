@@ -20,6 +20,8 @@ Current features:
 - return values
 - elseif statements
 - Booleans
+- and / or / not keywords
+- && / || / ! alliases
 - AST generation
 - Token inspection
 
@@ -142,7 +144,7 @@ kl --version
 
 ## Roadmap
  
-- and/or/not keywords
+- BODMAS + Precedence
 - break/continue
 - Standard Libararies
 - compiler (klcc.exe)
@@ -155,4 +157,4 @@ kl --version
 
 ## Status
 
-Current version: Beta Build 0014
+Current version: Beta Build 0014.9

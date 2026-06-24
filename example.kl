@@ -1,12 +1,23 @@
 define _start() {
+    </
+    I know it's a wonky example
+    />
 
-    bool isCool = Yes       ?? Tokenized to BOOL1
-    bool hungry = No        ?? Tokenized to BOOL0
+    bool cool = Yes
+    bool hungry = No
 
-    if isCool then {
-        println("You are Cool")
+    if cool and !hungry then {
+        println("Valid")
     }
-    if hungry == Yes then {
-        println("You are hungry")
+    if !cool or !hungry then {
+        println("Also Valid")
+    }
+
+    if cool || hungry then {
+        println("Absolutely Valid")
+    }
+
+    if not hungry then {
+        println("New features work!")
     }
 }

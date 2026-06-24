@@ -29,6 +29,10 @@ class TokenType(Enum):
     BOOL1 = auto()
     BOOL0 = auto()
 
+    AND = auto()
+    OR = auto()
+    NOT = auto()
+
     EQUAL = auto()
     EQUAL_EQUAL = auto()
     LESS = auto()           # <
@@ -59,6 +63,9 @@ KEYWORDS = {
     "str": TokenType.STR,
     "int": TokenType.INT,
     "bool": TokenType.BOOL,
+    "and": TokenType.AND,
+    "or": TokenType.OR,
+    "not": TokenType.NOT,
     "return": TokenType.RETURN  
 }
 
@@ -232,9 +239,26 @@ class Lexer:
                 self.advance()
                 continue
 
+            if self.current() == "&" and self.peek() == "&":
+                tokens.append(Token(TokenType.AND))
+                self.advance()
+                self.advance()
+                continue
+
+            if self.current() == "|" and self.peek() == "|":
+                tokens.append(Token(TokenType.OR))
+                self.advance()
+                self.advance()
+                continue
+
             if self.current() == "!" and self.peek() == "=":
                 tokens.append(Token(TokenType.NOT_EQUAL))
                 self.advance()
+                self.advance()
+                continue
+
+            if self.current() == "!":
+                tokens.append(Token(TokenType.NOT))
                 self.advance()
                 continue
 

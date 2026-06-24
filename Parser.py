@@ -252,7 +252,10 @@ class Parser:
             TokenType.MULTIPLY: "*",
             TokenType.DIVIDE: "/",
             TokenType.MODULO: "%",
-            TokenType.DOLLAR: "$"
+            TokenType.DOLLAR: "$",
+
+            TokenType.AND: "and",
+            TokenType.OR: "or"
         }
 
         while self.current().type in operator_map:
@@ -283,6 +286,15 @@ class Parser:
 
             return UnaryExpression(
                 "-",
+                self.parse_primary()
+            )
+        
+        if self.current().type == TokenType.NOT:
+
+            self.advance()
+
+            return UnaryExpression(
+                "not",
                 self.parse_primary()
             )
 

@@ -66,6 +66,9 @@ class Interpreter:
 
             if node.operator == "-":
                 return -value
+            
+            if node.operator == "not":
+                return not value
 
         if isinstance(node, BinaryExpression):
 
@@ -79,6 +82,12 @@ class Interpreter:
 
             if node.operator == "==":
                 return left == right
+            
+            if node.operator == "and":
+                return left and right
+
+            if node.operator == "or":
+                return left or right
 
             if node.operator == "+":
 
